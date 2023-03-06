@@ -19,31 +19,26 @@ fi
 
 docker network create elastic
 
-NODES=${NODES-1}
-for (( node=1; node<=$NODES; node++ ))
-do
-  port=$((9200 + $node - 1))
-  docker run \
-    --rm \
-    --env "node.name=es${node}" \
-    --env "cluster.name=docker-elasticsearch" \
-    --env "cluster.initial_master_nodes=es1" \
-    --env "discovery.seed_hosts=es1" \
-    --env "cluster.routing.allocation.disk.threshold_enabled=false" \
-    --env "bootstrap.memory_lock=true" \
-    --env "ES_JAVA_OPTS=-Xms1g -Xmx1g" \
-    --env "xpack.security.enabled=false" \
-    --env "xpack.license.self_generated.type=basic" \
-    --ulimit nofile=65536:65536 \
-    --ulimit memlock=-1:-1 \
-    --publish "${port}:9200" \
-    --detach \
-    --network=elastic \
-    --name="es${node}" \
-    --entrypoint="" \
-    docker.elastic.co/elasticsearch/elasticsearch:${STACK_VERSION} \
-    /bin/sh -vc "${PLUGIN_INSTALL_CMD} /usr/local/bin/docker-entrypoint.sh"
-done
+docker run \
+  --rm \
+  --env "node.name=es1" \
+  --env "cluster.name=docker-elasticsearch" \
+  --env "cluster.initial_master_nodes=es1" \
+  --env "discovery.seed_hosts=es1" \
+  --env "cluster.routing.allocation.disk.threshold_enabled=false" \
+  --env "bootstrap.memory_lock=true" \
+  --env "ES_JAVA_OPTS=-Xms1g -Xmx1g -Dhttp.proxyHost=${PROXY_HTTP_HOST} -Dhttp.proxyPort=${PROXY_HTTP_PORT} -Dhttps.proxyHost=${PROXY_HTTPS_HOST} -Dhttps.proxyPort=${PROXY_HTTPS_PORT}" \
+  --env "xpack.security.enabled=false" \
+  --env "xpack.license.self_generated.type=basic" \
+  --ulimit nofile=65536:65536 \
+  --ulimit memlock=-1:-1 \
+  --publish "9200:9200" \
+  --detach \
+  --network=elastic \
+  --name="es1" \
+  --entrypoint="" \
+  docker.elastic.co/elasticsearch/elasticsearch:${STACK_VERSION} \
+  /bin/sh -vc "${PLUGIN_INSTALL_CMD} /usr/local/bin/docker-entrypoint.sh"
 
 docker run \
   --network elastic \
