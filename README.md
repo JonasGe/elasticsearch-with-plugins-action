@@ -1,5 +1,5 @@
-# elasticsearch-with-plugins-action
+# elasticsearch-with-plugins-and-proxy-action
 
-- Base files Elasticsearch official github actions
-  - https://github.com/elastic/elastic-github-actions
-- Adopt to install Elasticsearch plugins
+- Elasticsearch
+- Elasticsearch plugins
+- Downloads over proxy
