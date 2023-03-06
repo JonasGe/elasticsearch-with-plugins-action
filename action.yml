@@ -1,6 +1,6 @@
 name: 'Run Elasticsearch'
-description: 'This action spins up an Elasticsearch instance that can be accessed and used in your subsequent steps.'
-author: 'igaiga'
+description: 'This action spins up an Elasticsearch instance with plugins downloaded through a proxy'
+author: 'JonasGe'
 
 branding:
   icon: 'database'
@@ -10,10 +10,18 @@ inputs:
   stack-version:
     description: 'The version of the Elastic Stack you want to run'
     required: true
-  nodes:
-    description: 'Number of nodes in the cluster'
-    required: false
-    default: 1
+  proxy_http_host:
+    description: 'HTTP proxy host'
+    require: false
+  proxy_http_port:
+    description: 'HTTP proxy port'
+    require: false
+  proxy_https_host:
+    description: 'HTTPS proxy host'
+    require: false
+  proxy_https_port:
+    description: 'HTTPS proxy port'
+    require: false
   plugins:
     description: 'Elasticsearch plugin strings'
     required: false
@@ -24,5 +32,8 @@ runs:
   image: 'Dockerfile'
   env:
     STACK_VERSION: ${{ inputs.stack-version }}
-    NODES: ${{ inputs.nodes }}
+    PROXY_HTTP_HOST: ${{ inputs.proxy_http_host }}
+    PROXY_HTTP_PROXY: ${{ inputs.proxy_http_proxy }}
+    PROXY_HTTPS_HOST: ${{ inputs.proxy_https_host }}
+    PROXY_HTTPS_PROXY: ${{ inputs.proxy_https_proxy }}
     PLUGINS: ${{ inputs.plugins }}
