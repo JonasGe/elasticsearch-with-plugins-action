@@ -7,16 +7,6 @@ if [[ -z $STACK_VERSION ]]; then
   exit 1
 fi
 
-PLUGIN_INSTALL_CMD=""
-PLUGINS_STR=`echo ${PLUGINS} | sed -e 's/\n/ /g'`
-if [ -n "${PLUGINS_STR}" ]; then
-  ARRAY=(${PLUGINS_STR})
-  for i in "${ARRAY[@]}"
-  do
-    PLUGIN_INSTALL_CMD+="elasticsearch-plugin install --batch ${i} && "
-  done
-fi
-
 docker network create elastic
 
 docker run \
@@ -38,7 +28,7 @@ docker run \
   --name="es1" \
   --entrypoint="" \
   docker.elastic.co/elasticsearch/elasticsearch:${STACK_VERSION} \
-  /bin/sh -vc "${PLUGIN_INSTALL_CMD} /usr/local/bin/docker-entrypoint.sh"
+  /bin/sh -vc "elasticsearch-plugin install ingest-attachment /usr/local/bin/docker-entrypoint.sh"
 
 docker run \
   --network elastic \
