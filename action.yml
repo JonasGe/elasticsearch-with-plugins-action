@@ -33,7 +33,7 @@ runs:
   env:
     STACK_VERSION: ${{ inputs.stack-version }}
     PROXY_HTTP_HOST: ${{ inputs.proxy_http_host }}
-    PROXY_HTTP_PROXY: ${{ inputs.proxy_http_proxy }}
+    PROXY_HTTP_PORT: ${{ inputs.proxy_http_port }}
     PROXY_HTTPS_HOST: ${{ inputs.proxy_https_host }}
-    PROXY_HTTPS_PROXY: ${{ inputs.proxy_https_proxy }}
+    PROXY_HTTPS_PORT: ${{ inputs.proxy_https_port }}
     PLUGINS: ${{ inputs.plugins }}
