@@ -27,7 +27,7 @@ docker run \
   --name="es1" \
   --entrypoint="" \
   docker.elastic.co/elasticsearch/elasticsearch:${STACK_VERSION} \
-  /bin/sh -vc "elasticsearch-plugin install ingest-attachment /usr/local/bin/docker-entrypoint.sh"
+  /bin/sh -vc "elasticsearch-plugin install ingest-attachment && /usr/local/bin/docker-entrypoint.sh"
 
 docker run \
   --rm \
