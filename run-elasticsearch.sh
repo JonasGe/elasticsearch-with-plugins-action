@@ -18,8 +18,6 @@ if [ "x${PLUGINS_STR}" != "x" ]; then
     done
 fi
 
-docker network create elastic
-
 docker run \
   --rm \
   --env "node.name=es1" \
