@@ -34,12 +34,11 @@ docker run \
   --network elastic \
   --rm \
   appropriate/curl \
-  --max-time 120 \
-  --retry 120 \
-  --retry-delay 1 \
+  --max-time 240 \
+  --retry 240 \
+  --retry-delay 2 \
   --retry-connrefused \
   --show-error \
-  --silent \
   http://es1:9200
 
 sleep 10
