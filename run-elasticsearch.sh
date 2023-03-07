@@ -39,6 +39,8 @@ docker run \
   --entrypoint="" \
   docker.elastic.co/elasticsearch/elasticsearch:${STACK_VERSION} \
   /bin/sh -vc "${PLUGIN_INSTALL_CMD} /usr/local/bin/docker-entrypoint.sh"
+  
+sleep 60
 
 docker run \
   --rm \
