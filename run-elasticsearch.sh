@@ -40,16 +40,4 @@ docker run \
   
 sleep 60
 
-docker run \
-  --rm \
-  appropriate/curl \
-  --max-time 240 \
-  --retry 120 \
-  --retry-delay 2 \
-  --retry-connrefused \
-  --show-error \
-  http://localhost:9200
-
-sleep 10
-
 echo "Elasticsearch up and running"
