@@ -1,10 +1,21 @@
-#!/bin/sh
+#!/bin/bash
 
 set -euxo pipefail
 
 if [[ -z $STACK_VERSION ]]; then
   echo -e "\033[31;1mERROR:\033[0m Required environment variable [STACK_VERSION] not set\033[0m"
   exit 1
+fi
+
+PLUGINS_STR=`echo ${PLUGINS} | sed -e 's/\n/ /g'`
+PLUGIN_INSTALL_CMD=""
+
+if [ "x${PLUGINS_STR}" != "x" ]; then
+    ARRAY=(${PLUGINS_STR})
+    for i in "${ARRAY[@]}"
+    do
+        PLUGIN_INSTALL_CMD+="elasticsearch-plugin install --batch ${i} && "
+    done
 fi
 
 docker network create elastic
@@ -27,7 +38,7 @@ docker run \
   --name="es1" \
   --entrypoint="" \
   docker.elastic.co/elasticsearch/elasticsearch:${STACK_VERSION} \
-  /bin/sh -vc "elasticsearch-plugin install ingest-attachment && /usr/local/bin/docker-entrypoint.sh"
+  /bin/sh -vc "${PLUGIN_INSTALL_CMD} /usr/local/bin/docker-entrypoint.sh"
 
 docker run \
   --rm \
@@ -37,7 +48,7 @@ docker run \
   --retry-delay 2 \
   --retry-connrefused \
   --show-error \
-  http://0.0.0.0:9200
+  http://es1:9200
 
 sleep 10
 
