@@ -24,14 +24,12 @@ docker run \
   --ulimit memlock=-1:-1 \
   --publish "9200:9200" \
   --detach \
-  --network=elastic \
   --name="es1" \
   --entrypoint="" \
   docker.elastic.co/elasticsearch/elasticsearch:${STACK_VERSION} \
   /bin/sh -vc "elasticsearch-plugin install ingest-attachment /usr/local/bin/docker-entrypoint.sh"
 
 docker run \
-  --network elastic \
   --rm \
   appropriate/curl \
   --max-time 240 \
@@ -39,7 +37,7 @@ docker run \
   --retry-delay 2 \
   --retry-connrefused \
   --show-error \
-  http://localhost:9200
+  http://0.0.0.0:9200
 
 sleep 10
 
