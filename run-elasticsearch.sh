@@ -17,7 +17,7 @@ docker run \
   --env "discovery.seed_hosts=es1" \
   --env "cluster.routing.allocation.disk.threshold_enabled=false" \
   --env "bootstrap.memory_lock=true" \
-  --env "ES_JAVA_OPTS=-Xms1g -Xmx1g -Dhttp.proxyHost=${PROXY_HTTP_HOST} -Dhttp.proxyPort=${PROXY_HTTP_PORT} -Dhttps.proxyHost=${PROXY_HTTPS_HOST} -Dhttps.proxyPort=${PROXY_HTTPS_PORT}" \
+  --env "ES_JAVA_OPTS=-Xms2g -Xmx2g -Dhttp.proxyHost=${PROXY_HTTP_HOST} -Dhttp.proxyPort=${PROXY_HTTP_PORT} -Dhttps.proxyHost=${PROXY_HTTPS_HOST} -Dhttps.proxyPort=${PROXY_HTTPS_PORT}" \
   --env "xpack.security.enabled=false" \
   --env "xpack.license.self_generated.type=basic" \
   --ulimit nofile=65536:65536 \
@@ -35,11 +35,11 @@ docker run \
   --rm \
   appropriate/curl \
   --max-time 240 \
-  --retry 240 \
+  --retry 120 \
   --retry-delay 2 \
   --retry-connrefused \
   --show-error \
-  http://es1:9200
+  http://localhost:9200
 
 sleep 10
 
