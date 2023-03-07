@@ -48,7 +48,7 @@ docker run \
   --retry-delay 2 \
   --retry-connrefused \
   --show-error \
-  http://es1:9200
+  http://localhost:9200
 
 sleep 10
 
